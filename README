@@ -1,3 +1,0 @@
-pip install pandas
-pip install IPython
-pip install --upgrade "qci-client<5"

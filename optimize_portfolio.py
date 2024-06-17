@@ -114,4 +114,4 @@ def optimize_portfolio(H, stocks, curr_date):
         % (time.time() - beg_time)
     )
 
-    return sel_stocks
+    return sol, sel_stocks
