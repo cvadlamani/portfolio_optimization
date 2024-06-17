@@ -1,4 +1,4 @@
-def optimize_portfolio(H, stocks):
+def optimize_portfolio(Hamiltonian_matrix, stocks):
     import time
     import numpy as np
     from parameters import K_PRIME, N_SAMPLES, ALPHA
@@ -8,8 +8,8 @@ def optimize_portfolio(H, stocks):
 
     K = len(stocks)
 
-    assert H.shape[0] == K
-    assert H.shape[1] == K
+    assert Hamiltonian_matrix.shape[0] == K
+    assert Hamiltonian_matrix.shape[1] == K
 
     # Generate the constraint                                                                
     cons_lhs = np.ones(shape=(K), dtype=np.float32)
@@ -19,14 +19,14 @@ def optimize_portfolio(H, stocks):
 
     # Create json objects   
     objective_json = {
-        "file_name": "objective_tutorial_eq_wt_port_opt.json",
+        "file_name": "objective_function.json",
         "file_config": {
-            "objective": {"data": H, "num_variables": K},
+            "objective": {"data": Hamiltonian_matrix, "num_variables": K},
         }  
     }
     
     constraint_json = {
-        "file_name": "constraints_tutorial_eq_wt_port_opt.json",
+        "file_name": "constraints.json",
         "file_config": {
             "constraints": {
                 "data": constraints, 
@@ -36,16 +36,7 @@ def optimize_portfolio(H, stocks):
         }
     }
 
-    job_json = {
-        "job_name": "moodys_eqc1_equal_weights",
-        "job_tags": ["moody_nasda100_eqc1_equal_weights",],
-        "params": {
-            "device_type": "csample", #"eqc1",                                               
-            "num_samples": N_SAMPLES,
-            "alpha": ALPHA,
-        },
-    }
-
+    
     # Solve the optimization problem
     token = "8982feb60ad44ce68ba981ad7a9970b7"
     api_url = "https://api.qci-prod.com"
@@ -68,8 +59,8 @@ def optimize_portfolio(H, stocks):
         job_params=job_params,
         constraints_file_id=constraint_file_id, 
         objective_file_id=objective_file_id,
-        job_name=f"tutorial_eqc1",
-        job_tags=["tutorial_eqc1"],
+        job_name=f"Portfolio Optimization",
+        job_tags=["portfolio stock optimization"],
     )
     print(job_json)
     
