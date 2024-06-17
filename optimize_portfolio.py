@@ -6,7 +6,7 @@ def optimize_portfolio(Hamiltonian_matrix, stocks):
 
     beg_time = time.time()
 
-    K = len(stocks)
+    K = len(stocks) # Total no.of stocks
 
     assert Hamiltonian_matrix.shape[0] == K
     assert Hamiltonian_matrix.shape[1] == K
@@ -76,9 +76,9 @@ def optimize_portfolio(Hamiltonian_matrix, stocks):
     is_feasibles = results["feasibilities"]
 
     # The sample solutions are sorted by energy                                               
-    sol = None
+    solution = None
     for i, item in enumerate(samples):
-        sol = item
+        solution = item
         is_feasible = is_feasibles[i]
 
         if is_feasible:
@@ -87,22 +87,22 @@ def optimize_portfolio(Hamiltonian_matrix, stocks):
     if not is_feasible:
         print("Solution is not feasible!")
 
-    assert len(sol) == K, "Inconsistent solution size!"
+    assert len(solution) == K, "Inconsistent solution size!"
 
-    if sum(sol) != K_PRIME:
+    if sum(solution) != K_PRIME:
         print(
             "Expected to select %d stocks, but selected %d!"
-            % (K_PRIME, sum(sol))
+            % (K_PRIME, sum(solution))
 	)
 
-    sel_stocks = []
+    selected_stocks = []
     for i in range(K):
-        if sol[i] > 0:
-            sel_stocks.append(stocks[i])
+        if solution[i] > 0:
+            selected_stocks.append(stocks[i])
 
     print(
         "In optimize_portfolio; done with checking constraints; %0.2f seconds!"
         % (time.time() - beg_time)
     )
 
-    return sol, sel_stocks
+    return solution, selected_stocks
