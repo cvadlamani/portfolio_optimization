@@ -14,21 +14,11 @@ def calculate_portfolio_values():
     # Set params                                                                                  
     INIT_PORT_VAL = 1000000.0
     OUT_OF_SAMPLE_DAYS = 30
-    K_PRIME = 30
-    XI = 5.0
-    IND_SYMBOL_1 = "QQQE"
-    IND_SYMBOL_2 = "NDX"
-
-    SEL_STOCK_FILE = "selected_stocks.csv"
-    INDEX_FILE_1 = "data/%s.csv" % IND_SYMBOL_1
-    INDEX_FILE_2 = "data/%s.csv" % IND_SYMBOL_2
 
     MIN_DATE = pd.to_datetime("2022-01-01")
     MAX_DATE = pd.to_datetime("2022-12-31")
 
     # Read allocation file                                                                        
-    #df = pd.read_csv(SEL_STOCK_FILE)
-    #df["Date"] = df["Date"].astype("datetime64[ns]")
     df["Date"] = pd.to_datetime([pd.Timestamp(timestamp).date() for timestamp in df["Date"]])
     df = df[(df["Date"] >= MIN_DATE) & (df["Date"] <= MAX_DATE)]
 
@@ -57,7 +47,7 @@ def calculate_portfolio_values():
         stocks = tmp_df["Stock"]
         stocks = list(set(stocks))
 
-        stocks = list(set(stocks) - set(DROP_STOCKS) - {"FISV"})
+        stocks = list(set(stocks)  - {"FISV"})
         
         if end_date > pd.to_datetime("2023-10-20"):
             stocks = list(set(stocks) - {"ATVI"})

@@ -1,5 +1,5 @@
 We carry out Binary Optimizaiton on a portfolio containing 5 stocks to retrieve an optimized portfolio containing 3
-of those stocks. 
+of those stocks.
 
 Download the following dependencies:
 
@@ -11,8 +11,7 @@ pip install --upgrade "qci-client<5"
 
 Python version
 
-QCI Client and API token info: 
-
+QCI Client and API token info:
 
 File and method descriptions
 
