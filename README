@@ -1,0 +1,21 @@
+We carry out Binary Optimizaiton on a portfolio containing 5 stocks to retrieve an optimized portfolio containing 3
+of those stocks. 
+
+Download the following dependencies:
+
+pip install pandas
+
+pip install IPython
+
+pip install --upgrade "qci-client<5"
+
+Python version
+
+QCI Client and API token info: 
+
+
+File and method descriptions
+
+parameters description
+
+path files
