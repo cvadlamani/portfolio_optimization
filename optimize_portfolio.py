@@ -12,10 +12,10 @@ def optimize_portfolio(Hamiltonian_matrix, stocks):
     assert Hamiltonian_matrix.shape[1] == K
 
     # Generate the constraint                                                                
-    cons_lhs = np.ones(shape=(K), dtype=np.float32)
-    cons_rhs = np.array([-K_PRIME])
+    constraints_lhs = np.ones(shape=(K), dtype=np.float32)
+    constraints_rhs = np.array([-K_PRIME])
 
-    constraints = np.hstack([cons_lhs, cons_rhs])
+    constraints = np.hstack([constraints_lhs, constraints_rhs])
 
     # Create json objects   
     objective_json = {
@@ -62,13 +62,13 @@ def optimize_portfolio(Hamiltonian_matrix, stocks):
         job_name=f"Portfolio Optimization",
         job_tags=["portfolio stock optimization"],
     )
-    print(job_json)
+    #print(job_json)
     
     job_response_json = qci.process_job(
         job_body=job_json
     )
 
-    print(job_response_json)
+    #print(job_response_json)
 
     results = job_response_json["results"]
     energies = results["energies"]
