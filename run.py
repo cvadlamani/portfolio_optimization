@@ -43,8 +43,8 @@ def run(current_date):
         )
 
     
-    print("Optimized portfolio contains the following stocks:")
 
+    print("Optimized portfolio contains the following stocks:")
     display(HTML(selected_stocks_df[["Stock"]].tail(1).to_html()))
 
     return selected_stocks_df
