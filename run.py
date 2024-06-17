@@ -6,6 +6,7 @@ def run(current_date):
     from get_hamiltonian import get_hamiltonian
     from optimize_portfolio import optimize_portfolio
     import os
+    from IPython.display import display, HTML
 
     print("Processing curr date:", current_date)
 
@@ -41,8 +42,9 @@ def run(current_date):
             SEL_STOCK_OUT_FILE, index=False,
         )
 
-    from IPython.display import display, HTML
     
+    print("Optimized portfolio contains the following stocks:")
+
     display(HTML(selected_stocks_df[["Stock"]].tail(1).to_html()))
 
     return selected_stocks_df
