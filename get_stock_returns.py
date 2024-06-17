@@ -9,8 +9,6 @@ def get_stock_returns(stocks, min_date, max_date):
     for stock in stocks:
         file_path = r"C:\\Users\\Chitra Vadlamani\Desktop\\portfolio_optimization\data/%s.csv" % stock
         stock_df = pd.read_csv(file_path)
-        #stock_df = pd.read_csv("data/%s.csv" % stock)
-        #stock_df["Date"] = stock_df["Date"].astype("datetime64[ns]") # change to fix timezone issue
         stock_df["Date"] = pd.to_datetime([pd.Timestamp(timestamp).date() for timestamp in stock_df["Date"]])  
         stock_df = stock_df.fillna(method="ffill").fillna(method="bfill")
         stock_df[stock] = stock_df[stock].pct_change()

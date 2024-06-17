@@ -1,40 +1,48 @@
-def run(curr_date):
+def run(current_date):
     import pandas as pd
     import datetime
-    from parameters import IN_SAMPLE_DAYS, OUT_OF_SAMPLE_DAYS, DROP_STOCKS
+    from parameters import IN_SAMPLE_DAYS, SEL_STOCK_OUT_FILE
     from get_stock_returns import get_stock_returns
     from get_hamiltonian import get_hamiltonian
     from optimize_portfolio import optimize_portfolio
+    import os
 
+    print("Processing curr date:", current_date)
 
-    print("Processing curr date:", curr_date)
+    current_date = pd.to_datetime(current_date)
+    in_sample_start_date = current_date - datetime.timedelta(days=IN_SAMPLE_DAYS)
+    in_sample_end_date  = current_date - datetime.timedelta(days=1)
 
-    curr_date = pd.to_datetime(curr_date)
-    min_ins_date = curr_date - datetime.timedelta(days=IN_SAMPLE_DAYS)
-    max_ins_date = curr_date - datetime.timedelta(days=1)
-    min_oos_date = curr_date
-    max_oos_date = curr_date + datetime.timedelta(days=OUT_OF_SAMPLE_DAYS)
-
-    file_path = r"C:\\Users\\Chitra Vadlamani\Desktop\\portfolio_optimization\\company_stock_data.csv"
+    file_path = r"C:\\Users\\Chitra Vadlamani\Desktop\\githubrepo\\portfolio_optimization\\company_stock_data.csv"
     df = pd.read_csv(file_path)
 
-    stocks = list(set(df["Symbol"]) - set(DROP_STOCKS))
+    stocks = list(set(df["Symbol"]))
 
-    ins_return_df = get_stock_returns(stocks, min_ins_date, max_ins_date)
-    oos_return_df = get_stock_returns(stocks, min_oos_date, max_oos_date)
+    in_sample_returns_df = get_stock_returns(stocks, in_sample_start_date, in_sample_end_date )
+    in_sample_returns_df = in_sample_returns_df.sort_values("Date")
+    in_sample_returns_df = in_sample_returns_df.fillna(method="ffill").fillna(0)
 
-    ins_return_df = ins_return_df.sort_values("Date")
-    ins_return_df = ins_return_df.fillna(method="ffill").fillna(0)
+    Hamiltonian_matrix = get_hamiltonian(in_sample_returns_df, stocks, in_sample_start_date, in_sample_end_date )
 
-    oos_return_df = oos_return_df.sort_values("Date")
-    oos_return_df = oos_return_df.fillna(method="ffill").fillna(0)
+    selected_stocks = optimize_portfolio(Hamiltonian_matrix, stocks)
 
-    H = get_hamiltonian(ins_return_df, stocks, min_ins_date, max_ins_date)
 
-    sol, sel_stocks = optimize_portfolio(H, stocks, curr_date)
+    selected_stocks_df = pd.DataFrame()
+    selected_stocks_df["Date"] = [current_date] * len(selected_stocks)
+    selected_stocks_df["Stock"] = selected_stocks
+    
 
-    sel_stock_df = pd.DataFrame()
-    sel_stock_df["Date"] = [curr_date] * len(sel_stocks)
-    sel_stock_df["Stock"] = sel_stocks
+    if os.path.exists(SEL_STOCK_OUT_FILE):
+        selected_stocks_df.to_csv(
+            SEL_STOCK_OUT_FILE, index=False, mode="a", header=False,
+        )
+    else:
+        selected_stocks_df.to_csv(
+            SEL_STOCK_OUT_FILE, index=False,
+        )
 
-    return sel_stock_df
+    from IPython.display import display, HTML
+    
+    display(HTML(selected_stocks_df[["Stock"]].tail(1).to_html()))
+
+    return selected_stocks_df

@@ -1,4 +1,4 @@
-def optimize_portfolio(H, stocks, curr_date):
+def optimize_portfolio(H, stocks):
     import time
     import numpy as np
     from parameters import K_PRIME, N_SAMPLES, ALPHA

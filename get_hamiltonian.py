@@ -2,7 +2,6 @@ def get_hamiltonian(
     return_df, stocks, min_date, max_date,
 ):
     import numpy as np
-    import time
     import datetime
     from parameters import WINDOW_DAYS, WINDOW_OVERLAP_DAYS, XI
     import pandas as pd
