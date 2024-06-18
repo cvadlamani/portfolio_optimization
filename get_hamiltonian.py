@@ -14,17 +14,17 @@ def get_hamiltonian(
     m = 0
     min_date = pd.to_datetime(min_date)
     max_date = pd.to_datetime(max_date)
-    tmp_date = min_date
-    while tmp_date <= max_date:
-        tmp_min_date = tmp_date
-        tmp_max_date = tmp_date + datetime.timedelta(days=WINDOW_DAYS)
-        tmp_df = return_df[
-            (return_df["Date"] >= tmp_min_date)
-            & (return_df["Date"] <= tmp_max_date)
+    temp_date = min_date
+    while temp_date <= max_date:
+        temp_min_date = temp_date
+        temp_max_date = temp_date + datetime.timedelta(days=WINDOW_DAYS)
+        temp_df = return_df[
+            (return_df["Date"] >= temp_min_date)
+            & (return_df["Date"] <= temp_max_date)
         ]
         r_list = []
         for i in range(K):
-            r_list.append(np.array(tmp_df[stocks[i]]))
+            r_list.append(np.array(temp_df[stocks[i]]))
 
         Q += np.cov(r_list)
 
@@ -32,7 +32,7 @@ def get_hamiltonian(
             for j in range(K):
                 P[i][j] += np.mean(r_list[i]) * np.mean(r_list[j])
 
-        tmp_date += datetime.timedelta(
+        temp_date += datetime.timedelta(
             days=WINDOW_DAYS - WINDOW_OVERLAP_DAYS,
         )
         m += 1
@@ -45,9 +45,9 @@ def get_hamiltonian(
     Q = fct * Q
 
     # Calculate the Hamiltonian                                                              
-    H = -P + XI * Q
+    hamiltonian_matrix = -P + XI * Q
 
     # make sure H is symmetric up to machine precision                                       
-    H = 0.5 * (H + H.transpose())
+    hamiltonian_matrix = 0.5 * (hamiltonian_matrix + hamiltonian_matrix.transpose())
 
-    return H
+    return hamiltonian_matrix
