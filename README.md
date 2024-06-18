@@ -1,23 +1,24 @@
 # Binary Optimization for Portfolio Selection
 
-This repository contains code to perform binary optimization on a portfolio of 5 stocks, selecting an optimized subset of 3 stocks. 
+This repository contains code to perform binary optimization on a portfolio of 5 stocks, selecting an optimized subset of 3 stocks.
 
 ## Dependencies
 
 Before running the code, make sure you have the necessary dependencies installed. You can install them using pip:
 
+```sh
 pip install pandas
 pip install IPython
 pip install --upgrade "qci-client<5"
+```
 
 ## Python Version
 
 Ensure you are using the appropriate Python version (3.8 or higher) that is compatible with the dependencies listed above.
 
-
 ## QCI Client and API Token
 
-To use the QCI Client, you need to have an API token. Make sure you have your API token ready and set up in the environment. You can use the following link to sign up: https://quantumcomputinginc.com/learn/tutorials-and-use-cases/quick-start-on-cloud
+To use the QCI Client, you need to have an API token. Make sure you have your API token ready and set up in the environment. You can sign up for an API token [here](https://quantumcomputinginc.com/learn/tutorials-and-use-cases/quick-start-on-cloud).
 
 ## File and Method Descriptions
 
@@ -37,14 +38,13 @@ Contains the method `get_hamiltonian` which constructs the Hamiltonian matrix us
 
 Contains the method `optimize_portfolio` which uses the Hamiltonian matrix to find the optimal set of stocks.
 
-
 ### calculate_portfolio_values.py
 
-The function calculates how the value of an investment portfolio changes over time, excluding specific stocks when necessary.
-
+This file contains a function that calculates how the value of an investment portfolio changes over time, excluding specific stocks when necessary.
 
 ### main.py
-Run this file, it ties all the files togeter and outputs the desired portfolio.
+
+Run this file to tie all the other files together and output the desired portfolio.
 
 ### run.py
 
@@ -54,6 +54,7 @@ The `run` function optimizes a stock portfolio based on historical data up to a 
 
 Make sure the paths to the CSV files containing the stock data are correctly specified in your code. For example:
 
-file_path = r"C:\\Users\\Chitra Vadlamani\Desktop\\portfolio_optimization_repo\\company_stock_data.csv"
-
+```python
+file_path = r"C:\\Users\\Chitra Vadlamani\\Desktop\\portfolio_optimization_repo\\company_stock_data.csv"
+```
 
