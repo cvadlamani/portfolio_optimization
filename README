@@ -1,28 +1,3 @@
-We carry out Binary Optimizaiton on a portfolio containing 5 stocks to retrieve an optimized portfolio containing 3
-of those stocks.
-
-Download the following dependencies:
-
-pip install pandas
-
-pip install IPython
-
-pip install --upgrade "qci-client<5"
-
-Python version
-
-QCI Client and API token info:
-
-File and method descriptions
-
-parameters description
-
-path files
-
-Sure, here is the rewritten content structured as a README file:
-
----
-
 # Binary Optimization for Portfolio Selection
 
 This repository contains code to perform binary optimization on a portfolio of 5 stocks, selecting an optimized subset of 3 stocks. 
@@ -36,10 +11,11 @@ pip install pandas
 pip install IPython
 pip install --upgrade "qci-client<5"
 ```
-
 ## Python Version
 
-Ensure you are using the appropriate Python version that is compatible with the dependencies listed above.
+Ensure you are using the appropriate Python version (3.8 or higher) that is compatible with the dependencies listed above.
+
+
 
 ## QCI Client and API Token
 
@@ -76,53 +52,3 @@ Make sure the paths to the CSV files containing the stock data are correctly spe
 file_path = r"C:\\Users\\Chitra Vadlamani\Desktop\\portfolio_optimization_repo\\company_stock_data.csv"
 ```
 
-## Example Usage
-
-Here is an example of how to use the `run` function to perform portfolio optimization:
-
-```python
-def run(current_date):
-    import pandas as pd
-    import datetime
-    from parameters import IN_SAMPLE_DAYS, OUT_OF_SAMPLE_DAYS
-    from get_stock_returns import get_stock_returns
-    from get_hamiltonian import get_hamiltonian
-    from optimize_portfolio import optimize_portfolio
-
-    print("current date being processed for portfolio optimization:", current_date)
-
-    current_date = pd.to_datetime(current_date)
-    in_sample_start_date = current_date - datetime.timedelta(days=IN_SAMPLE_DAYS)
-    in_sample_end_date = current_date - datetime.timedelta(days=1)
-    out_of_sample_start_date = current_date
-    out_of_sample_end_date = current_date + datetime.timedelta(days=OUT_OF_SAMPLE_DAYS)
-
-    file_path = r"C:\\Users\\Chitra Vadlamani\Desktop\\portfolio_optimization_repo\\company_stock_data.csv"
-    df = pd.read_csv(file_path)
-    stocks = list(set(df["Symbol"]))
-
-    in_sample_returns_df = get_stock_returns(stocks, in_sample_start_date, in_sample_end_date)
-    out_of_sample_returns_df = get_stock_returns(stocks, out_of_sample_start_date, out_of_sample_end_date)
-
-    in_sample_returns_df = in_sample_returns_df.sort_values("Date")
-    in_sample_returns_df = in_sample_returns_df.fillna(method="ffill").fillna(0)
-
-    out_of_sample_returns_df = out_of_sample_returns_df.sort_values("Date")
-    out_of_sample_returns_df = out_of_sample_returns_df.fillna(method="ffill").fillna(0)
-
-    hamiltonian_matrix = get_hamiltonian(in_sample_returns_df, stocks, in_sample_start_date, in_sample_end_date)
-
-    selected_stocks = optimize_portfolio(hamiltonian_matrix, stocks, current_date)
-
-    selected_stocks_df = pd.DataFrame()
-    selected_stocks_df["Date"] = [current_date] * len(selected_stocks)
-    selected_stocks_df["Stock"] = selected_stocks
-
-    return selected_stocks_df
-```
-
-Ensure you have the necessary data and API token in place to execute the function successfully.
-
----
-
-This README provides a comprehensive guide for setting up and using the binary optimization process for portfolio selection. Make sure to adapt the paths and parameters to your specific setup.
